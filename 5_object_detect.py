@@ -7,7 +7,7 @@ from ultralytics import YOLO
 import torch
 
 # 모델 불러오기
-model = YOLO("models/best.pt")
+model = YOLO("models/best232.pt")
 #best232가 일단 제일 나은듯?
 # define class names , 3 is target
 classNames = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15']
