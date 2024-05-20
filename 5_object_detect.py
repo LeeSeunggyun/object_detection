@@ -7,10 +7,19 @@ from ultralytics import YOLO
 import torch
 
 # 모델 불러오기
-model = YOLO("models/best232.pt")
+model_path="models/best232.pt"
+model = YOLO(f"{model_path}")
 #best232가 일단 제일 나은듯?
 # define class names , 3 is target
-classNames = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15']
+if model_path == "models/best137.pt":
+    classNames = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28']
+    targets=['2','4','6','8','10','12']
+elif model_path == "models/best232.pt":
+    classNames = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15']
+    targets=['0']
+elif model_path == "models/best307.pt":
+    classNames = ['0','1','2','3','4','5','6','7','8']
+    targets=['3']
 
 def image_detection(image_path, save_path):
     #--------------------------------추론----------------------------------#
@@ -37,7 +46,7 @@ def image_detection(image_path, save_path):
             label = f'{class_name}_{conf}'
             t_size = cv2.getTextSize(label, 0, fontScale=1, thickness=2)[0]
             c2 = x1 + t_size[0], y1 - t_size[1] - 3
-            if class_name in ['0']:   # target plastic bottle
+            if class_name in targets:   # target plastic bottle
                 target_count+=1
                 color = (222, 82, 175)
             # elif class_name == "4": # other plastic bottle
