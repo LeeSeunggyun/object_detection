@@ -12,7 +12,7 @@ transform = torchvision.transforms.Compose([
 ])
 image = transform(image)
 
-model = YOLO('models/best232.pt')
+model = YOLO('models/yolor_p6.pt')
 
 lrp = YOLOv8LRP(model, power=1, eps=1, device='cpu')
 explanation_lrp = lrp.explain(image, cls='0', contrastive=False).cpu()
