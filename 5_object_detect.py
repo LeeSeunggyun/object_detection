@@ -7,7 +7,7 @@ from ultralytics import YOLO
 import torch
 
 # 모델 불러오기
-model_path="models/best232.pt"
+model_path="models/best232_again.pt"
 model = YOLO(f"{model_path}")
 #best232가 일단 제일 나은듯?
 # define class names , 3 is target
@@ -20,6 +20,9 @@ elif model_path == "models/best232.pt":
 elif model_path == "models/best307.pt":
     classNames = ['0','1','2','3','4','5','6','7','8']
     targets=['3']
+elif model_path == "models/best232_again.pt":
+    classNames = ['0','1','2','3','4','5','6','7','8','9']
+    targets=['0']
 
 def image_detection(image_path, save_path):
     #--------------------------------추론----------------------------------#
