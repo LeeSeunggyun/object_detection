@@ -6,25 +6,25 @@ from ultralytics import YOLO
 # pip install ultralytics
 import torch
 
-# 모델 불러오기
-model_path="models/best232_again.pt"
-model = YOLO(f"{model_path}")
-#best232가 일단 제일 나은듯?
-# define class names , 3 is target
-if model_path == "models/best137.pt":
-    classNames = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28']
-    targets=['2','4','6','8','10','12']
-elif model_path == "models/best232.pt":
-    classNames = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15']
-    targets=['0']
-elif model_path == "models/best307.pt":
-    classNames = ['0','1','2','3','4','5','6','7','8']
-    targets=['3']
-elif model_path == "models/best232_again.pt":
-    classNames = ['0','1','2','3','4','5','6','7','8','9']
-    targets=['0']
 
-def image_detection(image_path, save_path):
+
+def image_detection(image_path, save_path, model_path):
+    
+    # 모델 불러오기
+    # model = YOLO(f"{model_path}")
+    if model_path == "models/best137.pt":
+        classNames = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28']
+        targets=['2','4','6','8','10','12']
+    elif model_path == "models/best232.pt":
+        classNames = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15']
+        targets=['0']
+    elif model_path == "models/best307.pt":
+        classNames = ['0','1','2','3','4','5','6','7','8']
+        targets=['3']
+    elif model_path == "models/best232_again.pt":
+        classNames = ['0','1','2','3','4','5','6','7','8','9']
+        targets=['0']
+    
     #--------------------------------추론----------------------------------#
     # 이미지 불러오기
     img = cv2.imread(image_path)
@@ -76,12 +76,26 @@ def image_detection(image_path, save_path):
 
 # 검사할 이미지 있는 경로
 input_folder = "./testenv"
-# 검사 결과 저장할 경로
-output_folder = "./testenv/result"
 
+
+# 검사 결과 저장할 경로
+output_folder = "./testenv/232again"
+model_path = "models/best232_again.pt"
+model = YOLO(f"{model_path}")
 for filename in os.listdir(input_folder):
     if filename.endswith(".jpg"):
         
         input_image_path = os.path.join(input_folder, filename)
         # 추론 수행 + 결과 저장
-        result_image_path = image_detection(input_image_path, output_folder)
+        result_image_path = image_detection(input_image_path, output_folder,'models/best232_again.pt')
+
+
+output_folder = "./testenv/232basic"
+model_path = "models/best232.pt"
+model = YOLO(f"{model_path}")
+for filename in os.listdir(input_folder):
+    if filename.endswith(".jpg"):
+        
+        input_image_path = os.path.join(input_folder, filename)
+        # 추론 수행 + 결과 저장
+        result_image_path = image_detection(input_image_path, output_folder,'models/best232.pt')
