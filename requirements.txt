@@ -22,7 +22,7 @@ fsspec==2024.3.1
 idna==3.7
 imageio==2.34.1
 intel-openmp==2021.4.0
-Jinja2==3.1.3
+Jinja2==3.1.4
 joblib==1.4.2
 kiwisolver==1.4.5
 langcodes==3.4.0
