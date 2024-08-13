@@ -6,11 +6,11 @@ from ultralytics import YOLO
 # pip install ultralytics
 import torch
 import shutil
-
+import time
 
 
 # model_test/src 폴더에 있는 모든 이미지들을 models 폴더의 모든 모델로 검사
-# detect() 
+# detect()
 
 
 # 이미지 파일 하나를 모든 모델로 검사
@@ -86,6 +86,11 @@ def detect():
     # 검사 결과들 저장할 경로
     output_folder = "./model_test"
 
+    best137time=[]
+    best232time=[]
+    best307time=[]
+    best232_reducedClasstime=[]
+    best232_3080time=[]
     # Create a directory for each model
     for model_name in os.listdir(model_path):
         model_output_folder = os.path.join(output_folder, model_name)
@@ -110,18 +115,54 @@ def detect():
             # Remove the model output folder
             shutil.rmtree(model_output_folder)
             continue
-            
+        
+        
         model = YOLO(os.path.join(model_path, model_name))
         for filename in os.listdir(input_folder):
             if filename.endswith(".jpg"):
                 input_image_path = os.path.join(input_folder, filename)
                 # 추론 수행 + 결과 저장
+                
+                curtime=time.time()
                 result_image_path = image_detection(input_image_path, 
                                                     model_output_folder,
                                                     model,
                                                     classNames,
                                                     targets)
+                endtime=time.time()-curtime
+                if model_name in ["best137.pt"]:
+                    best137time.append(endtime)
+                elif model_name in ["best232.pt"]:
+                    best232time.append(endtime)
+                elif model_name in ["best307.pt"]:
+                    best307time.append(endtime)
+                elif model_name in ["best232_reducedClass.pt"]:
+                    best232_reducedClasstime.append(endtime)
+                elif model_name in ["best232_3080.pt"]:
+                    best232_3080time.append(endtime)
+    # print average time, max time, min time
+    print("best137 time")
+    print("average time : ",sum(best137time)/len(best137time))
+    print("max time : ",max(best137time))
+    print("min time : ",min(best137time))
+    print("best232 time")
+    print("average time : ",sum(best232time)/len(best232time))
+    print("max time : ",max(best232time))
+    print("min time : ",min(best232time))
+    print("best307 time")
+    print("average time : ",sum(best307time)/len(best307time))
+    print("max time : ",max(best307time))
+    print("min time : ",min(best307time))
+    print("best232_reducedClass time")
+    print("average time : ",sum(best232_reducedClasstime)/len(best232_reducedClasstime))
+    print("max time : ",max(best232_reducedClasstime))
+    print("min time : ",min(best232_reducedClasstime))
+    print("best232_3080 time")
+    print("average time : ",sum(best232_3080time)/len(best232_3080time))
+    print("max time : ",max(best232_3080time))
+    print("min time : ",min(best232_3080time))
 
+        
 def detect_indiviaully(input_image_path, model_output_folder, model_path):
 
     # get model name if model_name is from of path
@@ -156,7 +197,6 @@ def detect_with_image(input_image_path):
     model_path = "./models"
     # 검사 결과들 저장할 경로
     output_folder = "./model_test"
-
     # Create a directory for each model
     for model_name in os.listdir(model_path):
         model_output_folder = os.path.join(output_folder, model_name)
@@ -188,3 +228,5 @@ def detect_with_image(input_image_path):
                                             classNames,
                                             targets)
 
+# model_test/src 폴더에 있는 모든 이미지들을 models 폴더의 모든 모델로 검사
+detect()
